@@ -1,12 +1,11 @@
-// 2024-04-20 11:45
+// 2024-06-30 11:40
 
-const url = $request.url;
-let header = $request.headers;
+if (!/html>/.test($response.body)) $done({});
 
-if (url.includes("/api/v1/movies/") && url.includes("/play?")) {
-  header.authorization =
-    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MzE4OTE0NSwidXNlcm5hbWUiOiJjaHhtMTAyNSJ9.9biip2hb60jXeakBMbnP-5QiLyycLj9s7dpHyXNUp7E"
-  $done({ headers: header });
-} else {
-  $done({});
-}
+// 去顶部域名,底部下载提醒,播放页广告
+const body = $response.body.replace(
+  /<\/head>/,
+  "<style> .sub-header, .app-desktop-banner, .moj-content {display:none!important;} </style> \n </head>"
+);
+
+$done({ body });
